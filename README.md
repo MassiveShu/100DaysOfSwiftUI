@@ -17,3 +17,8 @@ You can contact me:
 Twitter: @MaxSh69264556
 
 https://twitter.com/MaxSh69264556
+
+
+Stackoverflow: 
+
+https://stackoverflow.com/users/19256991/max-sh
