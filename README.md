@@ -8,8 +8,6 @@ To increase my skills, I’m currently working on:
 
 https://github.com/MassiveShu/100DaysOfSwiftUI
 
-100DaysOfSwiftUI
-
 * An Introduction to Interactive Programming in Python (Part 1)
 Rice University (Coursera)
 
