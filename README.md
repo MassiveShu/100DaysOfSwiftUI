@@ -1,7 +1,3 @@
-# 100DaysOfSwiftUI
-Tasks from course 100DaysOfSwiftUI
-
-
 Hello, World! ✌️
 
 I am a novice iOS developer.
