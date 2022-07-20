@@ -1,0 +1,129 @@
+import SwiftUI
+
+struct ContentView: View {
+    
+    @State private var showingScore = false
+    @State private var scoreTitle = ""
+    
+    @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Ukraine", "Spain", "UK", "US"].shuffled()
+    @State private var correctAnswer = Int.random(in: 0...2)
+    @State var count: Int = 0
+    
+    
+    @State private var tappedFlag = false
+    @State private var chosenFlag = -1
+    @State private var isCorrect = false
+    
+    struct Title: ViewModifier {
+        func body(content: Content) -> some View {
+            content
+                .font(.largeTitle)
+                .foregroundColor(.black)
+        }
+    }
+    
+    var body: some View {
+        ZStack {
+                RadialGradient(stops: [
+                    .init(color: Color(red: 0.2, green: 0.1, blue: 0.45), location: 0.3),
+                    .init(color: Color(red: 0.8, green: 0.15, blue: 0.3), location: 0.3)
+                ], center: .top, startRadius: 200, endRadius: 700)
+                    .ignoresSafeArea()
+                
+                        VStack {
+                            Spacer()
+                            Text("Guess the Flag")
+                                .font(.largeTitle.bold())
+                                .foregroundColor(.white)
+                            
+                            VStack(spacing: 15) {
+                                VStack {
+                                    Text("Tap the flag of")
+                                        .foregroundStyle(.secondary)
+                                        .font(.subheadline.weight(.heavy))
+                                    Text(countries[correctAnswer])
+                                        .font(.largeTitle.weight(.semibold))
+                                }
+                        
+                                ForEach(0..<3) {number in
+                                    Button {
+                    // 1) When you tap a flag, make it spin around 360 degrees on the Y axis.
+                                        withAnimation(.easeIn(duration: 1).delay(0.7)) {
+                                            FlagTapped(number)
+                                        }
+                                    } label: {
+                                        Image(countries[number])
+                                            .renderingMode(.original)
+                                            .clipShape(Capsule())
+                    // 1) When you tap a flag, make it spin around 360 degrees on the Y axis.
+                                            .rotation3DEffect(number == chosenFlag ? .degrees(360) : .degrees(0), axis: (x: 0, y: 1, z: 0))
+                    // 2) Make the other two buttons fade out to 25% opacity.
+                                            .opacity(tappedFlag && number != chosenFlag ? 0.5 : 1)
+                                            .scaleEffect(tappedFlag && number != chosenFlag ? 0.3 : 1)
+                                            .shadow(radius: 5)
+                                    }
+                                }
+                            }
+                            
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 20)
+                            // .background(.thinMaterial)
+                            .background(tappedFlag ? (isCorrect ? Color.green : Color.red) : Color(uiColor: .lightGray).opacity(0.7))
+                            .clipShape(RoundedRectangle(cornerRadius: 25))
+                            
+                            Spacer()
+                            Spacer()
+                            
+                            Text("Score: \(count)")
+//                                .foregroundColor(.white)
+//                                .font(.title.bold())
+                                .modifier(Title())
+                            
+                            Spacer()
+                        }
+                        .padding()
+            }
+        
+        
+            .alert(scoreTitle, isPresented: $showingScore) {
+                Button("Continue", action: askQuestion)
+            } message: {
+                Text("Your score is: \(count)")
+        }
+        
+}
+    
+    func FlagTapped(_ number: Int) {
+        chosenFlag = number
+        if number == correctAnswer {
+            scoreTitle = "Correct"
+            isCorrect = true
+            self.count += 1
+        } else {
+            scoreTitle = "You picked the wrong flag"
+            restart()
+        }
+        showingScore = true
+        tappedFlag = true
+    }
+    
+    func askQuestion() {
+        countries.shuffle()
+        correctAnswer = Int.random(in: 0...2)
+        chosenFlag = -1
+        tappedFlag = false
+        isCorrect = false
+    }
+    
+    func restart() {
+        count = 0
+    }
+
+
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            ContentView()
+        }
+    }
+}
+
