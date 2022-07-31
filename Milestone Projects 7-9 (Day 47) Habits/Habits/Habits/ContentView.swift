@@ -18,7 +18,7 @@ struct ContentView: View {
                 ForEach(habits.items) { item in
                     NavigationLink {
                         HStack {
-                            VStack(alignment: .center) {
+                            VStack(alignment: .trailing) {
                                 Text(item.title)
                                     .font(.headline)
                                 Text(item.type)
