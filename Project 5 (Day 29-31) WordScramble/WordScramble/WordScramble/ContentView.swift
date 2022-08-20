@@ -31,6 +31,10 @@ struct ContentView: View {
                             Image(systemName: "\(word.count).circle")
                         Text(word)
                         }
+// adding accessibility features
+                        .accessibilityElement()
+                        .accessibilityLabel(word)
+                        .accessibilityHint("\(word.count) letters")
                     }
                 }
     // 3) Track and show the player’s score for a given root word
@@ -53,6 +57,7 @@ struct ContentView: View {
                         .background(Color.orange)
                         .foregroundColor(Color.black)
                         .clipShape(Capsule())
+                        .font(.headline)
                 }
             }
         }
